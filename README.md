@@ -1,36 +1,132 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ✨ StickerVerse
 
-## Getting Started
+> The internet's favourite sticker community. Upload, discover, and vibe.
 
-First, run the development server:
+**Live Demo:** [stickerverse-ruddy.vercel.app](https://stickerverse-ruddy.vercel.app)
+
+---
+
+## 📸 Overview
+
+StickerVerse is a full-stack sticker sharing platform where creators can upload their art, discover stickers from others, follow creators, and build their collection.
+
+---
+
+## 🚀 Features
+
+- 🎨 **Upload Stickers** — Drag & drop PNG, WEBP, GIF with title, description, tags and category
+- 🔍 **Search & Discover** — Browse by category or search by name
+- 👤 **User Profiles** — Public profiles with sticker galleries, followers and following
+- ❤️ **Follow System** — Follow your favourite creators
+- 📊 **Dashboard** — Track your uploads, downloads and follower stats
+- 🔐 **Auth** — Email/password registration with custom username + GitHub OAuth
+- 🛡️ **Admin Panel** — Manage users and sticker content
+- 📱 **Fully Responsive** — Works on mobile, tablet and desktop
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 15, TypeScript, Tailwind CSS |
+| Backend | Supabase (PostgreSQL) |
+| Auth | Supabase Auth (Email + GitHub OAuth) |
+| Storage | Supabase Storage |
+| Deployment | Vercel |
+
+---
+
+## 📁 Project Structure
+
+```
+stickerverse/
+├── app/
+│   ├── page.tsx                  # Home page
+│   ├── auth/
+│   │   ├── signin/page.tsx       # Sign in page
+│   │   ├── register/page.tsx     # Register page
+│   │   └── callback/route.ts     # OAuth callback
+│   ├── sticker/[id]/page.tsx     # Sticker detail page
+│   ├── upload/page.tsx           # Upload page
+│   ├── search/page.tsx           # Search & discovery
+│   ├── user/[username]/page.tsx  # User profile
+│   ├── dashboard/page.tsx        # User dashboard
+│   ├── admin/page.tsx            # Admin panel
+│   └── api/
+│       ├── stickers/             # Sticker CRUD API
+│       ├── upload/               # File upload API
+│       └── follow/               # Follow system API
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx
+│   │   └── Footer.tsx
+│   └── ui/
+│       ├── StickerCard.tsx
+│       └── Skeleton.tsx
+├── context/
+│   └── AppContext.tsx            # Global auth + state
+├── lib/
+│   ├── supabase.ts               # Browser client
+│   └── server/supabase.ts        # Server client
+└── mocks/
+    └── data.ts                   # Categories + types
+```
+
+---
+
+## ⚙️ Getting Started
+
+### Prerequisites
+- Node.js 18+
+- A [Supabase](https://supabase.com) account
+- A [Vercel](https://vercel.com) account (for deployment)
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/allenasat044-prog/stickerverse.git
+cd stickerverse
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Set up environment variables
+
+Create a `.env.local` file in the root:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 4. Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌍 Deployment
 
-## Learn More
+Deployed on Vercel. To deploy your own:
 
-To learn more about Next.js, take a look at the following resources:
+1. Push to GitHub
+2. Import repo on [vercel.com](https://vercel.com)
+3. Add environment variables
+4. Click Deploy
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👤 Author
 
-## Deploy on Vercel
+Built by **SHANKS** — [@allenasat044-prog](https://github.com/allenasat044-prog)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> *"Stickers that actually slap."*
