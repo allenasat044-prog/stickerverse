@@ -6,6 +6,7 @@ import StickerCard from "@/components/ui/StickerCard";
 import { GridSkeleton } from "@/components/ui/Skeleton";
 import { CATEGORIES } from "@/mocks/data";
 import { Search } from "lucide-react";
+export const metadata = { title: "Browse Stickers", description: "Search and discover thousands of stickers across anime, gaming, memes and more." };
 
 function SearchContent() {
   const searchParams = useSearchParams();

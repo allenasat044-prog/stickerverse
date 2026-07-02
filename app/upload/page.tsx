@@ -5,6 +5,8 @@ import { CATEGORIES } from "@/mocks/data";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 
+export const metadata = { title: "Upload a Sticker", description: "Share your sticker art with the StickerVerse community." };
+
 export default function UploadPage() {
   const { user } = useApp();
   const router = useRouter();

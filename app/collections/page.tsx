@@ -7,6 +7,8 @@ import { GridSkeleton } from "@/components/ui/Skeleton";
 import { Heart, LogIn } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+export const metadata = { title: "My Collection", description: "View all your saved stickers on StickerVerse." };
+
 export default function CollectionsPage() {
   const { user } = useApp();
   const [stickers, setStickers] = useState<any[]>([]);
