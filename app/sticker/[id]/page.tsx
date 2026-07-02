@@ -10,22 +10,24 @@ export default function StickerDetailPage({ params }: { params: Promise<{ id: st
   const { user, toggleFollow, isFollowing } = useApp();
   const [sticker, setSticker] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase
-        .from("stickers")
-        .select("*, profiles(*)")
-        .eq("id", id)
-        .single();
+      const { data } = await supabase.from("stickers").select("*, profiles(*)").eq("id", id).single();
       setSticker(data);
+      if (user && data) {
+        const { data: col } = await supabase.from("collections").select("id").eq("user_id", user.id).eq("sticker_id", data.id).single();
+        setSaved(!!col);
+      }
       setLoading(false);
     }
     load();
-  }, [id]);
+  }, [id, user]);
 
- const handleDownload = async () => {
+  const handleDownload = async () => {
     if (!sticker) return;
     await supabase.from("stickers").update({ download_count: (sticker.download_count || 0) + 1 }).eq("id", sticker.id);
     setSticker((prev: any) => ({ ...prev, download_count: (prev.download_count || 0) + 1 }));
@@ -37,6 +39,19 @@ export default function StickerDetailPage({ params }: { params: Promise<{ id: st
     a.download = `${sticker.title || "sticker"}.png`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSave = async () => {
+    if (!user) { window.location.href = "/auth/signin"; return; }
+    setSaving(true);
+    if (saved) {
+      await supabase.from("collections").delete().eq("user_id", user.id).eq("sticker_id", sticker.id);
+      setSaved(false);
+    } else {
+      await supabase.from("collections").insert({ user_id: user.id, sticker_id: sticker.id });
+      setSaved(true);
+    }
+    setSaving(false);
   };
 
   if (loading) return (
@@ -104,8 +119,10 @@ export default function StickerDetailPage({ params }: { params: Promise<{ id: st
           <button onClick={handleDownload} className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl text-lg font-bold transition hover:opacity-90" style={{ background: "var(--primary)", color: "#fff" }}>
             <Download size={22} /> Download Sticker
           </button>
-          <button className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-medium transition hover:opacity-80" style={{ background: "var(--card)", border: "1px solid var(--border)", color: "var(--text)" }}>
-            <Heart size={16} /> Save to Collection
+
+          <button onClick={handleSave} disabled={saving} className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-medium transition hover:opacity-80 disabled:opacity-50" style={{ background: saved ? "rgba(124,58,237,0.15)" : "var(--card)", border: `1px solid ${saved ? "var(--primary)" : "var(--border)"}`, color: saved ? "var(--primary-light)" : "var(--text)" }}>
+            <Heart size={16} fill={saved ? "currentColor" : "none"} />
+            {saving ? "Saving..." : saved ? "Saved to Collection" : "Save to Collection"}
           </button>
         </div>
       </div>
