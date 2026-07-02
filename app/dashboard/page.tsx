@@ -10,6 +10,7 @@ export default function DashboardPage() {
   const { user, profile, refreshProfile } = useApp();
   const [tab, setTab] = useState<"overview" | "stickers" | "settings">("overview");
   const [stickers, setStickers] = useState<any[]>([]);
+  const [followers, setFollowers] = useState(0);
   const [bio, setBio] = useState("");
   const [username, setUsername] = useState("");
   const [saving, setSaving] = useState(false);
@@ -24,8 +25,17 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!user) { setLoading(false); return; }
     async function load() {
-      const { data } = await supabase.from("stickers").select("*").eq("uploader_id", user!.id).order("created_at", { ascending: false });
+      const { data } = await supabase
+        .from("stickers")
+        .select("*")
+        .eq("uploader_id", user!.id)
+        .order("created_at", { ascending: false });
       setStickers(data || []);
+      const { count } = await supabase
+        .from("follows")
+        .select("*", { count: "exact", head: true })
+        .eq("following_id", user!.id);
+      setFollowers(count || 0);
       setLoading(false);
     }
     load();
@@ -58,7 +68,7 @@ export default function DashboardPage() {
   const stats = [
     { label: "Stickers Uploaded", value: stickers.length, icon: Image, color: "var(--primary)" },
     { label: "Total Downloads", value: totalDownloads.toLocaleString(), icon: Download, color: "var(--accent)" },
-    { label: "Followers", value: (profile?.follower_count || 0).toLocaleString(), icon: Users, color: "#F59E0B" },
+    { label: "Followers", value: followers.toLocaleString(), icon: Users, color: "#F59E0B" },
   ];
 
   return (
