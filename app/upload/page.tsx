@@ -29,7 +29,7 @@ export default function UploadPage() {
   );
 
   const handleFile = (f: File) => {
-    if (!f.type.match(/image\/(png|webp|gif)/)) { setError("Only PNG, WEBP, GIF allowed"); return; }
+   if (!f.type.match(/image\/(png|webp|gif|jpeg|jpg|svg\+xml|avif)/)) { setError("Only PNG, WEBP, GIF, JPG, SVG, AVIF allowed"); return; }
     setFile(f);
     setPreview(URL.createObjectURL(f));
     setError("");
@@ -89,10 +89,10 @@ export default function UploadPage() {
             <>
               <ImageIcon size={36} style={{ color: "var(--muted)" }} className="mb-3" />
               <p className="font-medium">Drag & drop or click to upload</p>
-              <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>PNG, WEBP, GIF supported</p>
+             <p className="text-xs mt-1" style={{ color: "var(--muted)" }}>PNG, WEBP, GIF, JPG, SVG, AVIF supported</p>
             </>
           )}
-          <input ref={fileRef} type="file" accept="image/png,image/webp,image/gif" className="hidden" onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
+          <input ref={fileRef} type="file" accept="image/png,image/webp,image/gif,image/jpeg,image/svg+xml,image/avif" className="hidden" onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])} />
         </div>
 
         <div>
